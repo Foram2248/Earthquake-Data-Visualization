@@ -33,7 +33,7 @@ An interactive, responsive web application that visualizes real-time earthquake 
 ## ✅ Prerequisites
 
 - Node.js (v16+ recommended)
-- npm or yarn
+- npm
 
 ---
 

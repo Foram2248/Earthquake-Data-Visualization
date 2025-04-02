@@ -41,7 +41,7 @@ An interactive, responsive web application that visualizes real-time earthquake 
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/earthquake-visualizer.git
+git clone https://github.com/Foram2248/Earthquake-Data-Visualization.git
 cd earthquake-visualizer
 
 # Install dependencies

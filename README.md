@@ -1,3 +1,4 @@
-# React + TypeScript + Vite
+# Earthquake-Data-Visualization
+
 
 

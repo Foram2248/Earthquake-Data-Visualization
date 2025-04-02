@@ -48,18 +48,23 @@ function App() {
         Earthquake Data Visualization
       </div>
 
-      <div className="bg-white text-black rounded-lg shadow p-4 mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-        <div className="bg-gray-100 p-3 rounded">
-          <div className="text-sm text-gray-600">Total Records</div>
-          <div className="text-lg font-bold">{totalRows}</div>
-        </div>
-        <div className="bg-gray-100 p-3 rounded">
-          <div className="text-sm text-gray-600">Date Range</div>
-          <div className="text-lg font-bold">{dateRange}</div>
-        </div>
-        <div className="bg-gray-100 p-3 rounded">
-          <div className="text-sm text-gray-600">Magnitude Range</div>
-          <div className="text-lg font-bold">{magRange}</div>
+      <div className="bg-white text-black rounded-lg shadow p-4 mb-6">
+        <h2 className="text-lg font-semibold mb-4 text-primary">
+          Data Summary
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+          <div className="bg-gray-100 p-3 rounded">
+            <div className="text-sm text-gray-600">Total Records</div>
+            <div className="text-lg font-bold">{totalRows}</div>
+          </div>
+          <div className="bg-gray-100 p-3 rounded">
+            <div className="text-sm text-gray-600">Date Range</div>
+            <div className="text-lg font-bold">{dateRange}</div>
+          </div>
+          <div className="bg-gray-100 p-3 rounded">
+            <div className="text-sm text-gray-600">Magnitude Range</div>
+            <div className="text-lg font-bold">{magRange}</div>
+          </div>
         </div>
       </div>
 

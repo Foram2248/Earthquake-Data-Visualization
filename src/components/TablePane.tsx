@@ -11,7 +11,7 @@ function TablePane() {
     direction: "asc" | "desc";
   } | null>(null);
 
-  // Dynamically get all column names from first record
+  // dynamically get all column names from first record
   const columnNames =
     data.length > 0 ? Object.keys(data[0]).filter((key) => key !== "id") : [];
 
@@ -62,7 +62,7 @@ function TablePane() {
                 <th
                   key={col}
                   onClick={() => handleSort(col)}
-                  className="p-2 text-left capitalize cursor-pointer select-none hover:text-primary"
+                  className="p-2 capitalize cursor-pointer select-none hover:text-primary"
                 >
                   <span className="inline-flex items-center gap-1">
                     {col}

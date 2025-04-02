@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { useEarthquakeStore } from "../stores/earthquakeStore";
 import SelectedQuakeCard from "./SelectedQuakeCard";
 import { useHighlight } from "../contexts/HighlightContext";
@@ -13,13 +13,13 @@ import {
 } from "recharts";
 
 // numeric fields array for dropdown selection
-const numericOptions = ["mag", "depth", "latitude", "longitude"];
+const numericOptions = ["mag", "depth", "latitude", "longitude", "dmin"];
 
 function ChartPane() {
   const [xField, setXField] = useState("mag");
   const [yField, setYField] = useState("depth");
 
-  // Get data from global Zustand store
+  // get data from global Zustand store
   const data = useEarthquakeStore((state) => state.data);
   const { highlightedId, setHighlightedId } = useHighlight();
   const selectedQuake = data.find((d) => d.id === highlightedId);
@@ -27,7 +27,18 @@ function ChartPane() {
     console.log("Highlighted Point on Chart:", selectedQuake);
   }
 
-  // Helper function to calculate axis domain
+  // filter out invalid or empty records for selected fields
+  const validData = data.filter(
+    (d) =>
+      d[xField] !== undefined &&
+      d[yField] !== undefined &&
+      d[xField] !== null &&
+      d[yField] !== null &&
+      !isNaN(Number(d[xField])) &&
+      !isNaN(Number(d[yField]))
+  );
+
+  // helper function to calculate axis domain
   const getDomainData = (field: string): [number, number] => {
     const values = data.map((d) => Number(d[field])).filter((v) => !isNaN(v));
     if (values.length === 0) return [0, 1];
@@ -41,8 +52,16 @@ function ChartPane() {
   const xDomain = getDomainData(xField);
   const yDomain = getDomainData(yField);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderCustomPoint = (props: any) => {
+  type CustomShapeProps = {
+    cx: number;
+    cy: number;
+    payload: {
+      id: string;
+      mag: number;
+      [key: string]: unknown;
+    };
+  };
+  const renderCustomPoint = (props: CustomShapeProps) => {
     const { cx, cy, payload } = props;
 
     const isSelected = payload.id === highlightedId;
@@ -68,7 +87,6 @@ function ChartPane() {
         Earthquake Scatter Plot
       </h2>
 
-      {/* dropdowns for selecting plot axis */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div className="bg-gray-100 p-2 rounded">
           <label className="block text-sm text-gray-700 mb-2">X-Axis</label>
@@ -101,7 +119,6 @@ function ChartPane() {
         </div>
       </div>
 
-      {/* Chart Area */}
       <div className="h-[500px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart
@@ -122,8 +139,8 @@ function ChartPane() {
                 value: xField,
                 position: "bottom",
                 offset: 0,
-                fill: "#ffffff",
-                fontSize: 14,
+                fill: "text-primary-50",
+                fontSize: 20,
                 fontWeight: "bold",
               }}
               domain={xDomain}
@@ -133,13 +150,15 @@ function ChartPane() {
               name={yField.toUpperCase()}
               type="number"
               stroke="#ffffff"
+              width={70}
+              tickFormatter={(value) => Number(value).toFixed(2)}
               label={{
                 value: yField,
                 angle: -90,
-                position: "left",
+                position: "insideLeft",
                 offset: 0,
-                fill: "#ffffff",
-                fontSize: 14,
+                fill: "text-primary-50",
+                fontSize: 20,
                 fontWeight: "bold",
               }}
               domain={yDomain}
@@ -173,9 +192,9 @@ function ChartPane() {
 
             <Scatter
               name="Earthquakes"
-              data={data}
+              data={validData}
               fill="#00D852"
-              shape={renderCustomPoint}
+              shape={renderCustomPoint as (props: unknown) => JSX.Element}
             />
           </ScatterChart>
         </ResponsiveContainer>

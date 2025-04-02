@@ -6,5 +6,6 @@ export type Earthquake = {
   depth: number;
   latitude: number;
   longitude: number;
+  dmin?: number;
   [key: string]: unknown;
 };

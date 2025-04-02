@@ -4,7 +4,7 @@ import { Earthquake } from "../types/Earthquake";
 const CSV_URL =
   "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv";
 
-// Define a row type for parsed CSV data
+// define a row type for parsed CSV data
 type RawRow = Record<string, string>;
 
 export const fetchEarthquakeData = async (): Promise<Earthquake[]> => {
@@ -17,7 +17,7 @@ export const fetchEarthquakeData = async (): Promise<Earthquake[]> => {
 
     const csvText = await response.text();
 
-    // Parse CSV file using PapaParse
+    // parse CSV file using PapaParse
     return new Promise((resolve, reject) => {
       Papa.parse(csvText, {
         header: true,
@@ -29,7 +29,7 @@ export const fetchEarthquakeData = async (): Promise<Earthquake[]> => {
 
           const rows = results.data as RawRow[];
 
-          // Clean and map the first 100 rows from csv into Earthquake array
+          // clean and map the first 100 rows from csv into Earthquake array
           const cleanData: Earthquake[] = rows.slice(0, 100).map((row) => ({
             id: row.id || row.net + row.code || Math.random().toString(),
             time: new Date(row.time).toLocaleString(),

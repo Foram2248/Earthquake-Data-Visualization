@@ -7,6 +7,9 @@ type Props = {
 
 // function to display selected table row of earthquake details
 function SelectedQuakeCard({ quake }: Props) {
+  {
+    /*  selected Earthquake Details section */
+  }
   return (
     <div className="mt-6 px-6 py-4 bg-white text-black rounded-lg shadow-lg max-w-2xl">
       <h3 className="text-lg font-bold text-primary mb-4">

@@ -54,6 +54,7 @@ function TablePane() {
       <h2 className="text-xl font-semibold mb-4 text-white">
         Earthquake Records
       </h2>
+      {/* table pane */}
       <div className="overflow-auto max-h-[120vh]">
         <table className="min-w-full table-auto border-collapse text-sm">
           <thead className="bg-white text-black sticky top-0">

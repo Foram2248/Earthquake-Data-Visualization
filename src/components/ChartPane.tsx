@@ -87,6 +87,7 @@ function ChartPane() {
         Earthquake Scatter Plot
       </h2>
 
+      {/* dropdowns for selecting plot axis */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div className="bg-gray-100 p-2 rounded">
           <label className="block text-sm text-gray-700 mb-2">X-Axis</label>
@@ -119,6 +120,7 @@ function ChartPane() {
         </div>
       </div>
 
+      {/* scatter chart*/}
       <div className="h-[500px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart
@@ -164,6 +166,7 @@ function ChartPane() {
               domain={yDomain}
             />
 
+            {/* chart tooltip */}
             <Tooltip
               cursor={{ strokeDasharray: "3 3" }}
               content={({ payload }) => {

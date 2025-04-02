@@ -42,10 +42,19 @@ An interactive, responsive web application that visualizes real-time earthquake 
 ```bash
 # Clone the repo
 git clone https://github.com/Foram2248/Earthquake-Data-Visualization.git
-cd earthquake-visualizer
+```
 
-# Install dependencies
+```bash
+# go to project folder
+cd earthquake-data-visualization
+```
+
+```bash
+# install packages
 npm install
+```
 
+```bash
 # Start the development server
 npm run dev
+```

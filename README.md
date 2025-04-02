@@ -1,4 +1,4 @@
-# 🌍 Earthquake Data Visualizer
+# 🌍 Earthquake Data Visualization
 
 An interactive, responsive web application that visualizes real-time earthquake data from the USGS dataset. The app features a two-pane layout: one pane shows a dynamic scatter plot, and the other displays a scrollable, sortable table. Users can explore the data through linked interactivity between the table and chart.
 

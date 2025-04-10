@@ -43,32 +43,32 @@ function App() {
     mags.length >= 2 ? `${mags[0]} → ${mags[mags.length - 1]}` : "-";
 
   return (
-    <div className="w-screen min-h-screen bg-primary text-white p-4 border-4">
+    <div className="w-screen h-screen flex flex-col bg-primary text-white p-4 border-4 overflow-hidden">
       <div className="text-3xl font-bold text-white mb-4">
         Earthquake Data Visualization
       </div>
 
-      <div className="bg-white text-black rounded-lg shadow p-4 mb-6">
-        <h2 className="text-lg font-semibold mb-4 text-primary">
+      <div className="bg-white text-black rounded-lg shadow p-3 mb-3">
+        <h2 className="text-base font-semibold mb-4 text-primary">
           Data Summary
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
           <div className="bg-gray-100 p-3 rounded">
             <div className="text-sm text-gray-600">Total Records</div>
-            <div className="text-lg font-bold">{totalRows}</div>
+            <div className="text-base font-bold">{totalRows}</div>
           </div>
           <div className="bg-gray-100 p-3 rounded">
             <div className="text-sm text-gray-600">Date Range</div>
-            <div className="text-lg font-bold">{dateRange}</div>
+            <div className="text-base font-bold">{dateRange}</div>
           </div>
           <div className="bg-gray-100 p-3 rounded">
             <div className="text-sm text-gray-600">Magnitude Range</div>
-            <div className="text-lg font-bold">{magRange}</div>
+            <div className="text-base font-bold">{magRange}</div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-[90%]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow h-[calc(100vh-16rem)]">
         <div className="bg-secondary rounded-xl p-4 overflow-auto">
           <ChartPane />
         </div>

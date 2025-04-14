@@ -1,19 +1,18 @@
 import "./App.css";
 import { useEffect } from "react";
-import { fetchEarthquakeData } from "./services/fetchEarthquakeData";
 import { useEarthquakeStore } from "./stores/earthquakeStore";
 import ChartPane from "./components/ChartPane";
 import TablePane from "./components/TablePane";
 import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
-  const setData = useEarthquakeStore((state) => state.setData);
+  const fetchAndStoreData = useEarthquakeStore(
+    (state) => state.fetchAndStoreData
+  );
 
   useEffect(() => {
-    fetchEarthquakeData().then((data) => {
-      setData(data);
-    });
-  }, [setData]);
+    fetchAndStoreData();
+  }, [fetchAndStoreData]);
 
   // access data from store to show data summary
   const data = useEarthquakeStore((state) => state.data);

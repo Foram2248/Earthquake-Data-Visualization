@@ -5,15 +5,20 @@ import { fetchEarthquakeData } from "../services/fetchEarthquakeData";
 type EarthquakeStore = {
   data: Earthquake[];
   fetchAndStoreData: () => Promise<void>;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  rowsPerPage: number;
 };
 
-// create useEarthquakeStore to store all csv data(100 rows)
 export const useEarthquakeStore = create<EarthquakeStore>((set) => ({
   data: [],
+  currentPage: 1,
+  rowsPerPage: 100,
+  setCurrentPage: (page) => set({ currentPage: page }),
   fetchAndStoreData: async () => {
     try {
-      const data = await fetchEarthquakeData(); // call the service
-      set({ data }); // update the store
+      const data = await fetchEarthquakeData();
+      set({ data });
     } catch (err) {
       console.error("Failed to fetch earthquake data:", err);
     }

@@ -23,6 +23,7 @@ export const HighlightProvider = ({ children }: { children: ReactNode }) => {
 };
 
 // create hook to use it in table and chart components
+// eslint-disable-next-line react-refresh/only-export-components
 export const useHighlight = () => {
   const context = useContext(HighlightContext);
   if (!context) {

@@ -14,21 +14,21 @@ import {
 
 // numeric fields array for dropdown selection
 const numericOptions = ["mag", "depth", "latitude", "longitude", "dmin"];
-
+const ITEMS_PER_PAGE = 100; // take 100 rows per page
 function ChartPane() {
+  const data = useEarthquakeStore((state) => state.data);
+  const currentPage = useEarthquakeStore((state) => state.currentPage);
+  const { highlightedId, setHighlightedId } = useHighlight();
+  const selectedQuake = data.find((d) => d.id === highlightedId);
+
   const [xField, setXField] = useState("mag");
   const [yField, setYField] = useState("depth");
 
-  // get data from global Zustand store
-  const data = useEarthquakeStore((state) => state.data);
-  const { highlightedId, setHighlightedId } = useHighlight();
-  const selectedQuake = data.find((d) => d.id === highlightedId);
-  if (selectedQuake) {
-    console.log("Highlighted Point on Chart:", selectedQuake);
-  }
+  // slice data to show only 100 records per page
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const pagedData = data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  // filter out invalid or empty records for selected fields
-  const validData = data.filter(
+  const validData = pagedData.filter(
     (d) =>
       d[xField] !== undefined &&
       d[yField] !== undefined &&
@@ -38,17 +38,17 @@ function ChartPane() {
       !isNaN(Number(d[yField]))
   );
 
-  // helper function to calculate axis domain
   const getDomainData = (field: string): [number, number] => {
-    const values = data.map((d) => Number(d[field])).filter((v) => !isNaN(v));
+    const values = validData
+      .map((d) => Number(d[field]))
+      .filter((v) => !isNaN(v));
     if (values.length === 0) return [0, 1];
-
     const min = Math.min(...values);
     const max = Math.max(...values);
     const padding = (max - min) * 0.1 || 1;
-
     return [min - padding, max + padding];
   };
+
   const xDomain = getDomainData(xField);
   const yDomain = getDomainData(yField);
 
@@ -61,11 +61,11 @@ function ChartPane() {
       [key: string]: unknown;
     };
   };
+
   const renderCustomPoint = (props: CustomShapeProps) => {
     const { cx, cy, payload } = props;
-
     const isSelected = payload.id === highlightedId;
-    const radius = payload.mag ? payload.mag * 2 : 5;
+    const radius = payload.mag && payload.mag > 0 ? payload.mag * 2 : 5;
 
     return (
       <circle
@@ -87,7 +87,7 @@ function ChartPane() {
         Earthquake Scatter Plot
       </h2>
 
-      {/* dropdowns for selecting plot axis */}
+      {/* Dropdowns */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div className="bg-gray-100 p-2 rounded">
           <label className="block text-sm text-gray-700 mb-2">X-Axis</label>
@@ -103,7 +103,6 @@ function ChartPane() {
             ))}
           </select>
         </div>
-
         <div className="bg-gray-100 p-2 rounded">
           <label className="block text-sm text-gray-700 mb-2">Y-Axis</label>
           <select
@@ -120,17 +119,10 @@ function ChartPane() {
         </div>
       </div>
 
-      {/* scatter chart*/}
+      {/* Scatter Chart */}
       <div className="h-[500px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <ScatterChart
-            margin={{
-              top: 20,
-              right: 20,
-              bottom: 20,
-              left: 20,
-            }}
-          >
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid stroke="#ccc" />
             <XAxis
               dataKey={xField}
@@ -165,8 +157,6 @@ function ChartPane() {
               }}
               domain={yDomain}
             />
-
-            {/* chart tooltip */}
             <Tooltip
               cursor={{ strokeDasharray: "3 3" }}
               content={({ payload }) => {
@@ -192,7 +182,6 @@ function ChartPane() {
                 return null;
               }}
             />
-
             <Scatter
               name="Earthquakes"
               data={validData}
@@ -202,6 +191,7 @@ function ChartPane() {
           </ScatterChart>
         </ResponsiveContainer>
       </div>
+
       {selectedQuake && <SelectedQuakeCard quake={selectedQuake} />}
     </div>
   );

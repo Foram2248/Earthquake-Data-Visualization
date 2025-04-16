@@ -30,7 +30,7 @@ export const fetchEarthquakeData = async (): Promise<Earthquake[]> => {
           const rows = results.data as RawRow[];
 
           // clean and map the first 100 rows from csv into Earthquake array
-          const cleanData: Earthquake[] = rows.slice(0, 100).map((row) => ({
+          const cleanData: Earthquake[] = rows.map((row) => ({
             id: row.id || row.net + row.code || Math.random().toString(),
             time: new Date(row.time).toLocaleString(),
             place: row.place || "Unknown",

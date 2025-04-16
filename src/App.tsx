@@ -26,17 +26,6 @@ function App() {
 
   const totalRows = data.length;
 
-  const dates = data
-    .map((d) => new Date(d.time).getTime())
-    .sort((a, b) => a - b);
-
-  const dateRange =
-    dates.length >= 2
-      ? `${new Date(dates[0]).toLocaleString()} → ${new Date(
-          dates[dates.length - 1]
-        ).toLocaleString()}`
-      : "-";
-
   const mags = data.map((d) => d.mag).sort((a, b) => a - b);
   const magRange =
     mags.length >= 2 ? `${mags[0]} → ${mags[mags.length - 1]}` : "-";
@@ -51,16 +40,12 @@ function App() {
         <h2 className="text-base font-semibold mb-4 text-primary">
           Data Summary
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
-          <div className="bg-gray-100 p-3 rounded">
+        <div className="flex justify-center gap-6 flex-wrap text-center">
+          <div className="bg-gray-100 p-3 rounded w-[200px]">
             <div className="text-sm text-gray-600">Total Records</div>
             <div className="text-base font-bold">{totalRows}</div>
           </div>
-          <div className="bg-gray-100 p-3 rounded">
-            <div className="text-sm text-gray-600">Date Range</div>
-            <div className="text-base font-bold">{dateRange}</div>
-          </div>
-          <div className="bg-gray-100 p-3 rounded">
+          <div className="bg-gray-100 p-3 rounded w-[200px]">
             <div className="text-sm text-gray-600">Magnitude Range</div>
             <div className="text-base font-bold">{magRange}</div>
           </div>

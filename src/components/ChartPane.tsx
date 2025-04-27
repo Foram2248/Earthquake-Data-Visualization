@@ -1,4 +1,4 @@
-import { JSX, useState } from "react";
+import { JSX, useMemo, useState } from "react";
 import { useEarthquakeStore } from "../stores/earthquakeStore";
 import SelectedQuakeCard from "./SelectedQuakeCard";
 import { useHighlight } from "../contexts/HighlightContext";
@@ -28,15 +28,17 @@ function ChartPane() {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const pagedData = data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  const validData = pagedData.filter(
-    (d) =>
-      d[xField] !== undefined &&
-      d[yField] !== undefined &&
-      d[xField] !== null &&
-      d[yField] !== null &&
-      !isNaN(Number(d[xField])) &&
-      !isNaN(Number(d[yField]))
-  );
+  const validData = useMemo(() => {
+    return pagedData.filter(
+      (d) =>
+        d[xField] !== undefined &&
+        d[yField] !== undefined &&
+        d[xField] !== null &&
+        d[yField] !== null &&
+        !isNaN(Number(d[xField])) &&
+        !isNaN(Number(d[yField]))
+    );
+  }, [pagedData, xField, yField]);
 
   const getDomainData = (field: string): [number, number] => {
     const values = validData

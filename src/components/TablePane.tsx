@@ -1,6 +1,6 @@
 import { useEarthquakeStore } from "../stores/earthquakeStore";
 import { useHighlight } from "../contexts/HighlightContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const ROWS_PER_PAGE = 100;
 
@@ -38,20 +38,23 @@ function TablePane() {
     );
   };
 
-  const sortedData = [...data].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    const valA = a[key] ?? "";
-    const valB = b[key] ?? "";
+  const sortedData = useMemo(() => {
+    return [...data].sort((a, b) => {
+      if (!sortConfig) return 0;
+      const { key, direction } = sortConfig;
 
-    if (typeof valA === "number" && typeof valB === "number") {
-      return direction === "asc" ? valA - valB : valB - valA;
-    }
+      const valA = a[key] ?? "";
+      const valB = b[key] ?? "";
 
-    return direction === "asc"
-      ? String(valA).localeCompare(String(valB))
-      : String(valB).localeCompare(String(valA));
-  });
+      if (typeof valA === "number" && typeof valB === "number") {
+        return direction === "asc" ? valA - valB : valB - valA;
+      }
+
+      return direction === "asc"
+        ? String(valA).localeCompare(String(valB))
+        : String(valB).localeCompare(String(valA));
+    });
+  }, [data, sortConfig]);
 
   const paginatedData = sortedData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(data.length / ROWS_PER_PAGE);
